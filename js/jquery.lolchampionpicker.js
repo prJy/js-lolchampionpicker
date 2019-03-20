@@ -21,11 +21,11 @@
             }
         }, options);
 
-        const lolChampionDataURL = `http://ddragon.leagueoflegends.com/cdn/${settings.lolPatchApiVersion}/data/${settings.lang}/champion.json`;
+        const lolChampionDataURL = `https://ddragon.leagueoflegends.com/cdn/${settings.lolPatchApiVersion}/data/${settings.lang}/champion.json`;
 
         const renderData = (champions) => {
             $.each(champions, (index, champion) => {
-                let html = `<img src="http://ddragon.leagueoflegends.com/cdn/${settings.lolPatchApiVersion}/img/champion/${champion.image.full}" height="${settings.image.height}" width="${settings.image.width}" class="off pickable" id="${champion.id}"/>`
+                let html = `<img src="https://ddragon.leagueoflegends.com/cdn/${settings.lolPatchApiVersion}/img/champion/${champion.image.full}" height="${settings.image.height}" width="${settings.image.width}" class="off pickable" id="${champion.id}"/>`
                 that.append(html);
             });
         };
