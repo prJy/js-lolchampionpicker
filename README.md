@@ -1,2 +1,26 @@
-# js-lolchampionpicker
-Champion picker library
+JS- League of Legends Champion Picker
+===
+
+League of legends Champion Picker is a plugin that allow you to create a champion picker and recieve the reponse of selected data in JSON forma, you can also load the data and autoselect the champions on screen.
+
+## How to use:
+```js
+    var leagueOfLegendsChampionPicker = $("#champion-list").lolChampionPicker({
+        lolPatchApiVersion: "9.5.1", // Current Patch LOL required   
+            lang: "en_US", // optional.Language of API check it here: 
+            image: { // optional set image size
+                width: 60,
+                height: 60,
+            },
+            messages: { // optional. Error Handling messages
+                emptySelectedChampionError: "Pick a champion to continue!",
+                unvalidJSONTextError: "Invalid JSON text, failed to import!"
+            }
+    });
+```
+
+You can get the regions here:  
+https://ddragon.leagueoflegends.com/api/versions.json  
+The Languages here:  
+https://ddragon.leagueoflegends.com/cdn/languages.json
+
