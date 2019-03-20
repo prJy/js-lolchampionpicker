@@ -2,6 +2,8 @@ JS- League of Legends Champion Picker
 ===
 
 League of legends Champion Picker is a plugin that allow you to create a champion picker and recieve the reponse of selected data in JSON forma, you can also load the data and autoselect the champions on screen.
+Demo:   
+https://prjy.github.io/js-lolchampionpicker/index.html
 
 ## How to use:
 ```js
