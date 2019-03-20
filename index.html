@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Champion Picker</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+    img.off{
+        -webkit-filter: grayscale(100%); 
+        filter: grayscale(100%); 
+    }
+    img.off:hover{
+        cursor: pointer;
+        -webkit-filter: grayscale(0%); 
+        filter: grayscale(0%); 
+    }
+    img.on:hover {
+        cursor: pointer;
+    }
+    </style>
+    <script>
+        (function ( $ ) {
+        $.fn.lolChampionPicker = function( options ) {
+            that = this;
+            const settings = $.extend({                
+                lolApiVersion: "6.24.1",
+                lang: "en_US",
+                emptySelectedChampionError: "Pick a champion to continue!"                
+            }, options );
+
+            const lolChampionDataURL = `http://ddragon.leagueoflegends.com/cdn/${settings.lolApiVersion}/data/${settings.lang}/champion.json`;            
+            championPicker = {
+                element: $(that),
+                isSelectedTag: 'on',
+                isUnselectedTag: 'off'
+            };   
+
+            championPicker.init = async ()=>{              
+                $.ajax({
+                   url: lolChampionDataURL,
+                   context: this,
+                   processData: false
+                }).then((data)=>{                   
+                   championPicker.renderData(data.data);
+                });
+            };                
+
+            championPicker.renderData = (champions)=>{                                 
+                $.each(champions, (index, champion) => {                    
+                    let html = `<img src="http://ddragon.leagueoflegends.com/cdn/${settings.lolApiVersion}/img/champion/${champion.image.full}" class="off pickable" id="${champion.id}"/>`
+                    that.append(html);
+                });
+            };
+
+            championPicker.validateChamps = (champs) => {
+                if (champs.length === 0) {
+                    alert(settings.emptySelectedChampionError);
+                    return;
+                }
+                return true;
+            }
+
+            championPicker.getJSON = () =>{
+                const champs = $(`img.${championPicker.isSelectedTag}`, that);               
+                const data = [];
+                
+                if (!championPicker.validateChamps(champs)) return;                              
+                
+                for (let i = 0; i < champs.length; i ++){
+                    data.push(champs[i].id);
+                }
+
+                return data.join(";");
+            }    
+
+            championPicker.selectOrUnselectAll = (select) =>{
+                const champs = $('img', that);               
+                
+                for (let i = 0; i < champs.length; i ++){
+                    if(select){
+                        championPicker.checkImage(champs[i]);
+                    } else {
+                        championPicker.unCheckImage(champs[i]);  
+                    }
+                }                           
+            }                                    
+
+            championPicker.selectAll = ()=> {
+                championPicker.selectOrUnselectAll(true);
+            }
+
+            championPicker.unSelectAll = () => {
+                championPicker.selectOrUnselectAll(false);
+            }
+            
+            $(that).on('click',".pickable", (event)=>{
+                const selectedImage = $(event.target);                
+                if(selectedImage.hasClass(championPicker.isUnselectedTag)){
+                    championPicker.checkImage(selectedImage);
+                    return;
+                }
+                championPicker.unCheckImage(selectedImage);              
+            });
+
+            championPicker.checkImage = (selectedImage) => {                     
+                $(selectedImage).removeClass(championPicker.isUnselectedTag);
+                $(selectedImage).addClass(championPicker.isSelectedTag);                    
+            }
+
+            championPicker.unCheckImage = (selectedImage) => {          
+                $(selectedImage).addClass(championPicker.isUnselectedTag);
+                $(selectedImage).removeClass(championPicker.isSelectedTag);
+            }
+
+            championPicker.init();      
+            $(this).data("lolChampionPicker", championPicker);               
+        };
+
+        }( jQuery ));
+        $(document).ready(function(){           
+           $("#champion-list").lolChampionPicker({
+               lolApiVersion: "9.5.1"               
+           });   
+           
+           $("#btncheckSelectedChampion").click((event)=>{
+                event.preventDefault();
+                var selectedChamps = $("#champion-list").data('lolChampionPicker').getJSON();
+                alert(selectedChamps);
+           });
+           
+           $("#btnAll").click((event)=>{
+                event.preventDefault();
+                $("#champion-list").data('lolChampionPicker').selectAll();           
+           });
+
+           $("#btnNone").click((event)=>{
+                event.preventDefault();
+                $("#champion-list").data('lolChampionPicker').unSelectAll();           
+           });
+
+        });
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10">
+            <div id="champion-list"></div>
+        </div>
+        <div class="col-sm-2">
+            <button id="btncheckSelectedChampion" class="btn btn-block btn-primary">Get Selected</button>
+            <button id="btnAll" class="btn btn-block btn-primary">Select All</button>
+            <button id="btnNone" class="btn btn-block btn-primary">Select None</button>
+        </div>        
+    </div>
+    
+</div>
+
+</body>
+</html>
+
+
