@@ -7,22 +7,22 @@ https://prjy.github.io/js-lolchampionpicker/index.html
 
 ## How to use:
 ```js
-    var leagueOfLegendsChampionPicker = $("#champion-list").lolChampionPicker({
-        lolPatchApiVersion: "9.5.1", // Current Patch LOL required   
-            lang: "en_US", // optional.Language of API check it here: 
-            image: { // optional set image size
-                width: 60,
-                height: 60,
-            },
-            messages: { // optional. Error Handling messages
-                emptySelectedChampionError: "Pick a champion to continue!",
-                unvalidJSONTextError: "Invalid JSON text, failed to import!"
-            }
+    const leagueOfLegendsChampionPicker = $("#champion-list").lolChampionPicker({
+        lolPatchApiVersion: "9.5.1", // Current Patch LOL *required   
+        lang: "en_US", // optional
+        image: { // optional set image size
+            width: 60,
+            height: 60,
+        },
+        messages: { // optional. Error Handling messages
+            emptySelectedChampionError: "Pick a champion to continue!",
+            unvalidJSONTextError: "Invalid JSON text, failed to import!"
+        }
     });
 ```
 
-You can get the regions here:  
+You can get the available regions here:  
 https://ddragon.leagueoflegends.com/api/versions.json  
-The Languages here:  
+The available Languages here:  
 https://ddragon.leagueoflegends.com/cdn/languages.json
 
