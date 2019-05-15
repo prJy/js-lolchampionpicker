@@ -21,7 +21,7 @@ https://prjy.github.io/js-lolchampionpicker/index.html
     });
 ```
 
-You can get the available regions here:  
+You can get the avaliable regions here:  
 https://ddragon.leagueoflegends.com/api/versions.json  
 The available Languages here:  
 https://ddragon.leagueoflegends.com/cdn/languages.json
